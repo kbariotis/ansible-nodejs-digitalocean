@@ -1,5 +1,9 @@
-# Ansible DigitalOcean Node.js
+# Node.js on DigitalOcean with Ansible
 > Complete script to create a Node.js droplet on Digital Ocean.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/kbariotis/ansible-nodejs-digitalocean/master/logo.jpg?raw=true" alt="Ansible Node.js DigitalOcean"/>
+</p>
 
 ## Intro
 This project created to be the one and only destination to bootstrap new projects using on DigitalOcean.
