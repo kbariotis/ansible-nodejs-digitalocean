@@ -32,7 +32,7 @@
 
 - name: Deployment
   hosts: do
-  remote_user: kostarelo
+  remote_user: {{system_user}}
 
   vars_files:
     - ./defaults/vars.yml
