@@ -1,0 +1,33 @@
+# EDIT HERE #
+
+system_user: "kostarelo"
+email: "konmpar@gmail.com"
+
+# Digital Ocean
+do_token: 1677a7da92d8a956b6fd1c5e9f01ef93e5222aa763340694bb6aa6927589c847
+droplet_size_id: "512mb"
+droplet_region_id: "ams2"
+
+# Project
+domain: kostasbariotis.com
+repository: https://github.com/kbariotis/kostasbariotis.com
+ghost_fetch_url: https://github.com/TryGhost/Ghost/releases/download/0.11.3/Ghost-0.11.3.zip
+
+# USUALLY YOU WONT HAVE TO EDIT THESE. BE CAREFULL! #
+# Node
+node_version: 6
+node_env: production
+
+# UFW
+ufw_allow_ports:
+  - 22
+  - 80
+  - 443
+
+# SSH
+ssh_port: 22
+
+# User
+ssh_user: "{{system_user}}"
+ssh_groups: "wheel"
+ssh_pub_key: "{{ lookup('file', '~/.ssh/{{domain}}.pub') }}"

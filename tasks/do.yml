@@ -1,0 +1,83 @@
+- name: Generate SSH key
+  tags:
+    - launch
+  shell: ssh-keygen -b 2048 -t rsa -f ~/.ssh/{{domain}} -q -N ""
+  args:
+    creates: ~/.ssh/{{domain}}
+
+- name: Create DigitalOcean SSH Key
+  tags:
+    - launch
+  digital_ocean:
+    state: present
+    command: ssh
+    name: home
+    ssh_pub_key: "{{ssh_pub_key}}"
+    api_token: "{{do_token}}"
+  register: digital_ocean_key
+
+- name: Create DigitalOcean Droplet
+  tags:
+    - launch
+  digital_ocean:
+    state: present
+    command: droplet
+    name: "{{domain}}"
+    api_token: "{{do_token}}"
+    size_id: "{{droplet_size_id}}"
+    region_id: "{{droplet_region_id}}"
+    image_id: centos-7-2-x64
+    ssh_key_ids: "{{digital_ocean_key.ssh_key.id}}"
+    wait_timeout: 500
+    unique_name: yes
+  when: digital_ocean_key.ssh_key is defined
+  register: digital_ocean_droplet
+
+- name: Add Domain
+  tags:
+    - launch
+  digital_ocean_domain:
+    state: present
+    name: "{{domain}}"
+    ip: "{{digital_ocean_droplet.droplet.ip_address}}"
+    api_token: "{{do_token}}"
+
+- name: Add www Domain
+  tags:
+    - launch
+  digital_ocean_domain:
+    state: present
+    name: "www.{{domain}}"
+    ip: "{{digital_ocean_droplet.droplet.ip_address}}"
+    api_token: "{{do_token}}"
+  when: "'www' not in domain"
+
+- name: Add new host to our inventory
+  tags:
+    - launch
+  add_host:
+    name: "{{digital_ocean_droplet.droplet.ip_address}}"
+    groups: do
+  when: digital_ocean_droplet.droplet is defined
+
+- name: Get DigitalOcean Droplet
+  tags:
+    - deploy
+    - certificate
+  digital_ocean:
+    state: present
+    command: droplet
+    name: "{{domain}}"
+    api_token: "{{do_token}}"
+    wait_timeout: 500
+    unique_name: yes
+  register: digital_ocean_droplet
+
+- name: Add new host to our inventory
+  tags:
+    - deploy
+    - certificate
+  add_host:
+    name: "{{digital_ocean_droplet.droplet.ip_address}}"
+    groups: do
+  when: digital_ocean_droplet.droplet is defined

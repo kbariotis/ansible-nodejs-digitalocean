@@ -1,0 +1,21 @@
+#############################
+# Managed by Ansible, do not edit! #
+#############################
+
+server_tokens off;
+
+add_header X-Frame-Options SAMEORIGIN;
+
+add_header X-Content-Type-Options nosniff;
+
+add_header X-XSS-Protection "1; mode=block";
+
+server {
+    listen 80;
+
+    server_name {{domain}};
+
+    location /.well-known {
+        alias /var/www/.well-known;
+    }
+}

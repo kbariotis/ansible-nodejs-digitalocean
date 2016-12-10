@@ -1,0 +1,14 @@
+- name: Get certificate
+  tags:
+    - launch
+    - certificate
+  stat:
+    path: /etc/letsencrypt/live/{{domain}}/fullchain.pem
+  register: certificate
+
+- name: Request new certificate
+  tags:
+    - launch
+    - certificate
+  command: "certbot certonly --webroot --force-renewal -w /var/www -d {{domain}} {% if 'www' not in domain %}-d www.{{domain}}{% endif %} --quiet --agree-tos --email {{email}}"
+  when: not certificate.stat.exists or ansible_date_time.epoch | float - certificate.stat.mtime > 60*60*24*85

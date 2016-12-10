@@ -1,0 +1,44 @@
+- name: DO
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ./defaults/vars.yml
+
+  tasks:
+    - include: ./tasks/do.yml
+
+- name: Initial Configuration
+  hosts: do
+  remote_user: root
+  vars_files:
+    - ./defaults/vars.yml
+
+  handlers:
+    - include: ./handlers/main.yml
+
+  tasks:
+    - name: Wait for host
+      local_action: "wait_for port: {{ item }} host: {{ inventory_hostname }}"
+      with_items:
+        - "80"
+        - "22"
+
+    - include: ./tasks/server.yml
+    - include: ./tasks/certificate.yml
+    - include: ./tasks/server-post-certificate.yml
+    - include: ./tasks/security.yml
+    - include: ./tasks/users.yml
+    - include: ./tasks/swapfile.yml
+
+- name: Deployment
+  hosts: do
+  remote_user: kostarelo
+
+  vars_files:
+    - ./defaults/vars.yml
+
+  handlers:
+    - include: ./handlers/main.yml
+
+  tasks:
+    - include: ./tasks/project.yml

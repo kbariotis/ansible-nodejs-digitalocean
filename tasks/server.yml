@@ -1,0 +1,66 @@
+- name: Add Repo
+  tags:
+    - launch
+  get_url:
+    url: http://download.opensuse.org/repositories/home:zhonghuaren/Fedora_23/home:zhonghuaren.repo
+    dest: /etc/yum.repos.d/
+
+- name: Install dependencies
+  tags:
+    - launch
+  yum: name={{item}} state=installed
+  with_items:
+    - git
+    - curl
+    - unzip
+    - epel-release
+    - mod_ssl
+    - ufw
+
+- name: Install dependencies
+  tags:
+    - launch
+  yum:
+    name: "{{item}}"
+    state: installed
+  with_items:
+    - python-certbot-apache
+    - nginx
+    - nodejs
+    - npm
+
+- name: Configure ufw
+  command: "{{item}}"
+  with_items:
+    - systemctl enable ufw
+    - systemctl start ufw
+    - chkconfig ufw on
+    - ufw enable
+
+- name: Configure NODE_ENV
+  tags:
+    - launch
+  lineinfile: dest=/etc/environment line="NODE_ENV={{node_env}}"
+
+- name: Create www dir
+  tags:
+    - launch
+  file:
+    dest: /var/www
+    state: directory
+    owner: "{{ssh_user}}"
+
+- name: Configure site for the certificate
+  tags:
+    - launch
+  template:
+    src: ../templates/nginx.conf.j2
+    dest: /etc/nginx/conf.d/default.conf
+    force: no
+
+- name: Starting NGINX
+  tags:
+    - launch
+  service:
+    name: nginx
+    state: started

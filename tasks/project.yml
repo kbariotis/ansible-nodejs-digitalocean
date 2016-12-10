@@ -1,0 +1,65 @@
+# Add you specific project instructions here
+#
+# Mind the tags, so you are able to specify a tags only ansible command later on
+#
+# An example would be:
+#
+# * git_pull your repo (http://docs.ansible.com/ansible/git_module.html)
+# * install dependecies (http://docs.ansible.com/ansible/npm_module.html)
+# * build your repo
+# * start it using pm2
+
+# - name: Clone/Pull repo
+#   tags:
+#     - launch
+#     - deploy
+#   git:
+#     repo: "{{repository}}"
+#     dest: /var/www
+#   register: git_finished
+
+# - name: Install npm deps
+#   tags:
+#     - launch
+#     - ghost
+#   shell: npm i
+#   register: npm_finished
+#   failed_when: '"ERR!" in npm_finished.stderr'
+#   args:
+#     chdir: /var/www
+
+# - name: Install global dependencies
+#   become: yes
+#   become_user: root
+#   tags:
+#     - launch
+#   npm:
+#     name: "{{ item }}"
+#     state: present
+#     global: yes
+#     production: yes
+#   with_items:
+#     - pm2
+#     - webpack
+
+# - name: Build Theme
+#   tags:
+#     - launch
+#     - deploy
+#   shell: webpack
+#   args:
+#     chdir: /var/www
+
+# - name: Start App
+#   tags:
+#     - launch
+#   shell: pm2 start index.js --name {{domain}} --update-env
+#   args:
+#     chdir: /var/www
+#   ignore_errors: yes
+#   when: npm_finished.changed
+
+# - name: Restart App
+#   tags:
+#     - deploy
+#   shell: pm2 restart {{domain}}
