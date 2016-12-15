@@ -1,5 +1,5 @@
 # Node.js on DigitalOcean with Ansible
-> Complete script to create a Node.js droplet on Digital Ocean.
+> Complete playbook to create and deploy a Node.js application on Digital Ocean.
 
 ## Intro
 This project created to be the one and only destination to bootstrap new projects on [DigitalOcean](digitalocean.com) 
@@ -58,4 +58,34 @@ when adding your custom tasks.
 
 to renew the certificate.
 
-## [License](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/LICENSE.md)
+## Internals
+The main entrypoint is the [main.yml](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/main.yml) 
+file. The playbook is divided in three plays one 
+for the DigitalOcean configuration, one for the server initial configuration which runs as 
+root user and the third for the specific project configuration.
+
+The [tasks](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/tasks)
+folder contains all tasks required by the playbook. It's file is named 
+after it's concern so it's easy to spot where something is happening.
+
+You can place your project's specific files at the [files](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/files) 
+folder.
+
+Tweak the project using the [defaults/vars.yml](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/defaults/vars.yml) 
+file. All of the values there are required, so make sure that are valid and cover your needs.
+
+The main file you need to edit is the [tasks/project.yml](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/tasks/project.yml).
+This file is called after the server is up and running. The example file will:
+
+* Pull your repo (http://docs.ansible.com/ansible/git_module.html) only if it has changes to pull
+* install local dependecies (http://docs.ansible.com/ansible/npm_module.html)
+* install global dependecies like `webpack` and `pm2`
+* build your repo using `webpack`
+* start it using `pm2`
+
+## Contribute
+Please, do contribute by [opening an issue](https://github.com/kbariotis/ansible-nodejs-digitalocean/issue) 
+or creating a Pull Request.
+
+## License
+[MIT](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/LICENSE.md)
