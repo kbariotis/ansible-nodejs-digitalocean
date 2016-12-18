@@ -9,9 +9,9 @@ I wanted to:
 * Automate build and configuration of a droplet
 * Automate deployments of my project
 
-All you need to start using this repo is a DigitalOcean account, 
-an [API key](https://cloud.digitalocean.com/settings/applications) and 
-a domain name as well.
+To start using this repo, you need a DigitalOcean account, 
+a [DigitalOcean API key](https://cloud.digitalocean.com/settings/applications), a domain name and a
+[Papertrail](https://papertrailapp.com) account along with it's [API key](https://papertrailapp.com/account/profile).
 
 Many thanks to https://github.com/yoshz/ansible-digitalocean cause I took a lot of his code.
 
