@@ -24,6 +24,7 @@ This script will:
 * Add swapfile to droplet
 * Add a new root-user to the droplet and enable sudo
 * Secure with ufw and restrict SSH to pub-key access only
+* Setup Papertrail logging
 * Add nginx as a reverse proxy
 * Request a certificate from LetsEncrypt
 

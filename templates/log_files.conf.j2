@@ -1,0 +1,7 @@
+hostname: {{domain}}
+files:
+  - /home/{{system_user}}/.pm2/logs/*.log
+destination:
+  host: logs5.papertrailapp.com
+  port: 39629
+  protocol: tls

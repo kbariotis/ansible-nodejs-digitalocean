@@ -1,0 +1,25 @@
+- name: Run Papertrail installer
+  command: "wget -qO - --header=\"X-Papertrail-Token: {{papertrail_key}}\" \ https://papertrailapp.com/destinations/3937483/setup.sh | sudo bash"
+  args:
+    creates: "/usr/local/bin/remote_syslog"
+  tags:
+    - launch
+
+- name: Configure rsyslog
+  tags:
+    - launch
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    regexp: '^\$LocalHostName '
+    insertbefore: "^# rsyslog configuration file"
+    line: "$LocalHostName {{domain}}"
+    state: present
+  notify: restart rsyslog
+
+- name: Copy log_files
+  tags:
+    - launch
+  template:
+    src: ./templates/log_files.conf.j2
+    dest: /etc/log_files.conf
+    force: no

@@ -3,6 +3,9 @@
 system_user: "kbariotis"
 email: "konmpar@gmail.com"
 
+# Papertrail
+papertrail_key: ""
+
 # Digital Ocean
 do_token: ""
 droplet_size_id: "512mb"
