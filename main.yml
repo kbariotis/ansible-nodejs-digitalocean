@@ -20,11 +20,11 @@
     - name: Wait for host
       local_action: "wait_for port: 22 host: {{ inventory_hostname }}"
 
+    - include: ./tasks/users.yml
     - include: ./tasks/server.yml
     - include: ./tasks/certificate.yml
     - include: ./tasks/server-post-certificate.yml
     - include: ./tasks/security.yml
-    - include: ./tasks/users.yml
     - include: ./tasks/swapfile.yml
     - include: ./tasks/papertrail.yml
 
