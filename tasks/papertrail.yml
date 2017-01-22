@@ -1,5 +1,13 @@
-- name: Run Papertrail installer
-  command: "wget -qO - --header=\"X-Papertrail-Token: {{papertrail_key}}\" \ https://papertrailapp.com/destinations/3937483/setup.sh | sudo bash"
+- name: Download Papertrail installer
+  get_url:
+    url: https://papertrailapp.com/destinations/3937483/setup.sh
+    dest: /tmp/papertrailapp-setup.sh
+    headers: "X-Papertrail-Token: {{papertrail_key}}"
+  tags:
+    - launch
+
+- name: Execute Papertrail installer
+  shell: sh /tmp/papertrailapp-setup.sh
   args:
     creates: "/usr/local/bin/remote_syslog"
   tags:
