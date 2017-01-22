@@ -2,7 +2,7 @@
   tags:
     - launch
   get_url:
-    url: http://download.opensuse.org/repositories/home:zhonghuaren/Fedora_23/home:zhonghuaren.repo
+    url: http://download.opensuse.org/repositories/home:zhonghuaren/Fedora_24/home:zhonghuaren.repo
     dest: /etc/yum.repos.d/
 
 - name: Install dependencies
