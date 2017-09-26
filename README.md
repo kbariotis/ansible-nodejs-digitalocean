@@ -11,7 +11,7 @@ I wanted to:
 
 To start using this repo, you need a DigitalOcean account, 
 a [DigitalOcean API key](https://cloud.digitalocean.com/settings/applications), a domain name and a
-[Papertrail](https://papertrailapp.com) account along with it's [API key](https://papertrailapp.com/account/profile).
+[Papertrail](https://papertrailapp.com) account along with its [API key](https://papertrailapp.com/account/profile).
 
 Many thanks to https://github.com/yoshz/ansible-digitalocean cause I took a lot of his code.
 
@@ -66,8 +66,8 @@ for the DigitalOcean configuration, one for the server initial configuration whi
 root user and the third for the specific project configuration.
 
 The [tasks](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/tasks)
-folder contains all tasks required by the playbook. It's file is named 
-after it's concern so it's easy to spot where something is happening.
+folder contains all tasks required by the playbook. Its file is named 
+after its concern so it's easy to spot where something is happening.
 
 You can place your project's specific files at the [files](https://github.com/kbariotis/ansible-nodejs-digitalocean/blob/master/files) 
 folder.
