@@ -29,7 +29,7 @@ This script will:
 * Request a certificate from LetsEncrypt
 
 ## How to use it
-You need Ansible to start with this project. [So go get it](http://docs.ansible.com/ansible/intro_getting_started.html)!
+You need Ansible to start with this project. [So go get it](https://spacelift.io/blog/ansible-tutorial)!
 
 * Clone this repo
 * Edit `defaults/vars.yml`
